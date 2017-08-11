@@ -1,17 +1,17 @@
 package main
 
 import (
-  "fmt"
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/charge"
-  "github.com/stripe/stripe-go/customer"
-  "net/http"
-  "os"
+	"fmt"
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/charge"
+	"github.com/stripe/stripe-go/customer"
+	"net/http"
+	"os"
 )
 
 func main() {
-  // publishableKey := os.Getenv("PUBLISHABLE_KEY")
-  stripe.Key = os.Getenv("SECRET_KEY")
+	// publishableKey := os.Getenv("PUBLISHABLE_KEY")
+	stripe.Key = os.Getenv("SECRET_KEY")
 
 	http.HandleFunc("/charge", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
@@ -37,9 +37,9 @@ func main() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
 		fmt.Fprintf(w, "Charge completed successfully!")
 	})
 
-	http.ListenAndServe(":5000", nil)
+	port := os.Getenv("PORT")
+	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 }
