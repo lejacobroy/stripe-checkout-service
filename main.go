@@ -20,6 +20,7 @@ func main() {
 	http.HandleFunc("/charge", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 
+		fmt.Println(r.Form)
 		customerParams := &stripe.CustomerParams{Email: r.Form.Get("stripeEmail")}
 		customerParams.SetSource(r.Form.Get("stripeToken"))
 
@@ -41,6 +42,7 @@ func main() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		fmt.Fprintf(w, "Charge completed successfully!")
 	})
 
