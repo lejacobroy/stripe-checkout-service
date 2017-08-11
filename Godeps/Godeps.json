@@ -1,0 +1,30 @@
+{
+	"ImportPath": "checkout.jacobevanshreve.me",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./"
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/stripe/stripe-go",
+			"Comment": "v24.3.0",
+			"Rev": "924076d66af652a2a686a609dad8225f187a0f17"
+		},
+		{
+			"ImportPath": "github.com/stripe/stripe-go/charge",
+			"Comment": "v24.3.0",
+			"Rev": "924076d66af652a2a686a609dad8225f187a0f17"
+		},
+		{
+			"ImportPath": "github.com/stripe/stripe-go/customer",
+			"Comment": "v24.3.0",
+			"Rev": "924076d66af652a2a686a609dad8225f187a0f17"
+		},
+		{
+			"ImportPath": "github.com/stripe/stripe-go/orderitem",
+			"Comment": "v24.3.0",
+			"Rev": "924076d66af652a2a686a609dad8225f187a0f17"
+		}
+	]
+}
