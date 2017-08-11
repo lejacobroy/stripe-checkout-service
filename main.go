@@ -13,6 +13,10 @@ func main() {
 	// publishableKey := os.Getenv("PUBLISHABLE_KEY")
 	stripe.Key = os.Getenv("SECRET_KEY")
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Submit a Stripe charge token to /charge")
+	})
+
 	http.HandleFunc("/charge", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 
