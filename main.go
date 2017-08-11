@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-  publishableKey := os.Getenv("PUBLISHABLE_KEY")
+  // publishableKey := os.Getenv("PUBLISHABLE_KEY")
   stripe.Key = os.Getenv("SECRET_KEY")
 
 	http.HandleFunc("/charge", func(w http.ResponseWriter, r *http.Request) {
