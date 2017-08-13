@@ -19,7 +19,7 @@ func main() {
 
 	http.HandleFunc("/charge", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 		switch r.Method {
 		case "OPTIONS":
@@ -28,8 +28,10 @@ func main() {
 			r.ParseForm()
 
 			fmt.Println(r.Form)
-			customerParams := &stripe.CustomerParams{Email: r.Form.Get("stripeEmail")}
-			customerParams.SetSource(r.Form.Get("stripeToken"))
+			fmt.Println(r.Form.Get("email"))
+
+			customerParams := &stripe.CustomerParams{Email: r.Form.Get("email")}
+			customerParams.SetSource(r.Form.Get("id"))
 
 			newCustomer, err := customer.New(customerParams)
 
