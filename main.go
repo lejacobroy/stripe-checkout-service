@@ -42,8 +42,10 @@ func main() {
 				return
 			}
 
+			amount := strconv.Atoi(r.Form.Get("amount"))
+
 			chargeParams := &stripe.ChargeParams{
-				Amount:   r.Form.Get("amount"),
+				Amount:   amount,
 				Currency: currency,
 				Desc:     charge_description,
 				Customer: newCustomer.ID,
