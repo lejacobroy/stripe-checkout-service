@@ -18,32 +18,38 @@ func main() {
 	})
 
 	http.HandleFunc("/charge", func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
+		switch r.Method {
+		case "OPTIONS":
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 
-		fmt.Println(r.Form)
-		customerParams := &stripe.CustomerParams{Email: r.Form.Get("stripeEmail")}
-		customerParams.SetSource(r.Form.Get("stripeToken"))
+		case "POST":
+			r.ParseForm()
 
-		newCustomer, err := customer.New(customerParams)
+			fmt.Println(r.Form)
+			customerParams := &stripe.CustomerParams{Email: r.Form.Get("stripeEmail")}
+			customerParams.SetSource(r.Form.Get("stripeToken"))
 
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			newCustomer, err := customer.New(customerParams)
+
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			chargeParams := &stripe.ChargeParams{
+				Amount:   500,
+				Currency: "usd",
+				Desc:     "Donation to Jacob",
+				Customer: newCustomer.ID,
+			}
+
+			if _, err := charge.New(chargeParams); err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			fmt.Fprintf(w, "Charge completed successfully!")
 		}
-
-		chargeParams := &stripe.ChargeParams{
-			Amount:   500,
-			Currency: "usd",
-			Desc:     "Donation to Jacob",
-			Customer: newCustomer.ID,
-		}
-
-		if _, err := charge.New(chargeParams); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		fmt.Fprintf(w, "Charge completed successfully!")
 	})
 
 	port := os.Getenv("PORT")
