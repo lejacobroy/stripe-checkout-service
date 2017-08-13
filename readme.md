@@ -7,9 +7,9 @@ This repo is ready to deploy to Heroku, you just need to set a few environment v
 
 Required | ENV | example
 ---------|-----|--------
-x | `SECRET_KEY` | sk_test_UvLkbnT99KVPEMb7ua1M5afN
-x | `CHARGE_DESCRIPTION` | Personal gift to Jacob
-  | `CURRENCY` | usd
+yes | `SECRET_KEY` | sk_test_UvLkbnT99KVPEMb7ua1M5afN
+yes | `CHARGE_DESCRIPTION` | Personal gift to Jacob
+no  | `CURRENCY` | usd
 
 
 Then You can post a few parameters to `/charge` as `Content-Type: application/x-www-form-urlencoded` data.
