@@ -7,13 +7,16 @@ import (
 	"github.com/stripe/stripe-go/customer"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 func main() {
 	// publishableKey := os.Getenv("PUBLISHABLE_KEY")
 	stripe.Key = os.Getenv("SECRET_KEY")
-	charge_description = os.Getenv("CHARGE_DESCRIPTION")
-	currency = os.Getenv("CURRENCY") || "usd"
+	charge_description := os.Getenv("CHARGE_DESCRIPTION")
+	currency := os.Getenv("CURRENCY")
+	if currency == "" { currency = "usd" }
+
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Submit a Stripe charge token to /charge")
@@ -36,17 +39,20 @@ func main() {
 			customerParams.SetSource(r.Form.Get("id"))
 
 			newCustomer, err := customer.New(customerParams)
-
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			amount := strconv.Atoi(r.Form.Get("amount"))
+			amount, err := strconv.Atoi(r.Form.Get("amount"))
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 
 			chargeParams := &stripe.ChargeParams{
-				Amount:   amount,
-				Currency: currency,
+				Amount:   uint64(amount),
+				Currency: stripe.Currency(currency),
 				Desc:     charge_description,
 				Customer: newCustomer.ID,
 			}
