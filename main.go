@@ -12,6 +12,8 @@ import (
 func main() {
 	// publishableKey := os.Getenv("PUBLISHABLE_KEY")
 	stripe.Key = os.Getenv("SECRET_KEY")
+	charge_description = os.Getenv("CHARGE_DESCRIPTION")
+	currency = os.Getenv("CURRENCY") || "usd"
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Submit a Stripe charge token to /charge")
@@ -41,9 +43,9 @@ func main() {
 			}
 
 			chargeParams := &stripe.ChargeParams{
-				Amount:   500,
-				Currency: "usd",
-				Desc:     "Donation to Jacob",
+				Amount:   r.Form.Get("amount"),
+				Currency: currency,
+				Desc:     charge_description,
 				Customer: newCustomer.ID,
 			}
 
