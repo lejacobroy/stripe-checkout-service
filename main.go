@@ -18,9 +18,11 @@ func main() {
 	})
 
 	http.HandleFunc("/charge", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+
 		switch r.Method {
 		case "OPTIONS":
-			w.Header().Set("Access-Control-Allow-Origin", "*")
 
 		case "POST":
 			r.ParseForm()
