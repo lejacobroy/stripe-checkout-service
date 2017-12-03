@@ -37,9 +37,6 @@ func main() {
 
 			customerParams := &stripe.CustomerParams{Email: r.Form.Get("email")}
 			customerParams.SetSource(r.Form.Get("token"))
-			if(r.Form.Get("btcaddress")){
-				fmt.Fprintf(w, "BTC Address is : ", r.Form.Get("btcaddress"))
-			}
 
 			newCustomer, err := customer.New(customerParams)
 			if err != nil {
@@ -52,7 +49,12 @@ func main() {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-
+			btcaddress, err := strconv.QuoteToASCII(r.Form.Get("btcaddress"))
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			fmt.Fprintf(w, "BTC Address is : ", r.Form.Get("btcaddress"))
 
 			chargeParams := &stripe.ChargeParams{
 				Amount:   uint64(amount),
