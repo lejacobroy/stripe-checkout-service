@@ -36,7 +36,7 @@ func main() {
 			fmt.Println(r.Form.Get("email"))
 
 			customerParams := &stripe.CustomerParams{Email: r.Form.Get("email")}
-			customerParams.SetSource(r.Form.Get("id"))
+			customerParams.SetSource(r.Form.Get("token"))
 
 			newCustomer, err := customer.New(customerParams)
 			if err != nil {
